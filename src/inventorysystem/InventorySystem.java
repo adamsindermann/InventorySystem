@@ -5,6 +5,7 @@
  */
 package inventorysystem;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,9 @@ public class InventorySystem extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(InventorySystem.class.getResource("/inventorysystem/views/Main.fxml"));
+        Parent root = loader.load();
         
         Scene scene = new Scene(root);
         

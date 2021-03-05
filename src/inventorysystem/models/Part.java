@@ -2,7 +2,7 @@ package inventorysystem.models;
 
 /**
  *
- * @author Place Your Name Here
+ * @author Adam Sindermann
  */
 public abstract class Part {
     private int id;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem.models;
 
 import javafx.collections.FXCollections;
@@ -11,6 +6,7 @@ import javafx.collections.ObservableList;
 /**
  *
  * @author Adam Sindermann
+ * Model for Product Object
  */
 public class Product {
     
@@ -42,18 +38,34 @@ public class Product {
         this.max = max;
     }
 
+    /**
+     * 
+     * @return ObservableList of parts associated with the product 
+     */
     public ObservableList<Part> getAssociatedParts() {
         return associatedParts;
     }
 
+    /**
+     * 
+     * @param associatedParts ObservableList of parts associated with the product 
+     */
     public void setAssociatedParts(ObservableList<Part> associatedParts) {
         this.associatedParts = associatedParts;
     }
 
+    /**
+     * 
+     * @return the product identification number as an integer 
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * the product identification number as an integer
+     * @param id 
+     */
     public void setId(int id) {
         this.id = id;
     }

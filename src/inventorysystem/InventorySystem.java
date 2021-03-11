@@ -6,6 +6,10 @@
 package inventorysystem;
 
 
+import inventorysystem.models.InHouse;
+import inventorysystem.models.Inventory;
+import inventorysystem.models.Outsourced;
+import inventorysystem.models.Part;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,16 +18,17 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author AdamS
+ * @author Adam Sindermann
  */
 public class InventorySystem extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(InventorySystem.class.getResource("/inventorysystem/views/Main.fxml"));
         Parent root = loader.load();
-        
+   
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
@@ -35,6 +40,7 @@ public class InventorySystem extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+
     }
     
 }

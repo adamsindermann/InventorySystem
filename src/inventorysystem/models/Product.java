@@ -28,8 +28,8 @@ public class Product {
      * @param min the minimum amount of the product that should be in stock
      * @param max the maximum amount of the product that should be in stock
      */
-    public Product(ObservableList<Part> associatedParts, int id, String name, double price, int stock, int min, int max) {
-        this.associatedParts = associatedParts;
+    public Product(int id, String name, double price, int stock, int min, int max) {
+        this.associatedParts = FXCollections.observableArrayList();
         this.id = id;
         this.name = name;
         this.price = price;
@@ -119,9 +119,7 @@ public class Product {
     }
     
     public ObservableList<Part> getAllAssociatedParts(){
-         ObservableList<Part> returnList = FXCollections.observableArrayList();
-         returnList.add(new InHouse(1, "1", 1, 1, 1, 1, 1));
-         return returnList;
+        return associatedParts;
          
     }
     

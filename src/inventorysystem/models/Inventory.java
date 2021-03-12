@@ -16,21 +16,35 @@ public class Inventory {
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();;
     
-    
+    /**
+     * Adds a part to the inventory
+     * @param newPart Part object to be added to inventory 
+     */
     public static void addPart(Part newPart){
         
         allParts.add(newPart);
     }
     
+    
+    /**
+     * Adds a new product to the inventory
+     * @param newProduct The Product object to be added to the inventory
+     */
     public static void addProduct(Product newProduct){
         allProducts.add(newProduct);
     }
     
-//    public static Part(int partId){
-//        
-//    }
+    public static Part lookupPart(int partId){
+        return allParts.get(1);
+    }
+    
+    
     
     public static ObservableList<Part> getAllParts(){
         return allParts;
+    }
+    
+    public static ObservableList<Product> getAllProducts(){
+        return allProducts;
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem.views;
 
 import inventorysystem.models.InHouse;
@@ -12,6 +7,7 @@ import inventorysystem.models.Part;
 import inventorysystem.models.Product;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +20,8 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author AdamS
+ * @author Adam Sindermann
+ * Controls the behavior of the Main view
  */
 public class MainController implements Initializable {
     
@@ -44,6 +41,8 @@ public class MainController implements Initializable {
     
     //Buttons
     @FXML private Button exitButton;
+    @FXML private Button deletePartButton;
+    @FXML private Button deleteProductButton;
     
 
     
@@ -100,10 +99,35 @@ public class MainController implements Initializable {
         
     }
     
+    /**
+     * Closes the program when invoked by the exit button
+     */
     public void exitButtonPushed(){
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
         System.exit(0);
     }
     
+    
+    /**
+     * Checks which delete button was pushed and deletes the corresponding Object
+     * @param event 
+     */
+    public void deleteButtonPushed(ActionEvent event){
+        Button buttonPushed = (Button)event.getSource();
+        
+        if (buttonPushed.equals(deletePartButton)){
+            ObservableList<Part> selectedRows;
+            selectedRows = partTableView.getSelectionModel().getSelectedItems();
+            for (Part part: selectedRows){
+                Inventory.deletePart(part);
+            }
+        } else {
+            ObservableList<Product> selectedRows;
+            selectedRows = productTableView.getSelectionModel().getSelectedItems();
+            for (Product product: selectedRows){
+                Inventory.deleteProduct(product);
+            }
+        }
+    }
 }

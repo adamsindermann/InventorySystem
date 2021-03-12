@@ -17,7 +17,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ * Entry point of the application
  * @author Adam Sindermann
  */
 public class InventorySystem extends Application {

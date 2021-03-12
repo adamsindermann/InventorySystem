@@ -1,7 +1,7 @@
 package inventorysystem.models;
 
 /**
- *
+ * Model for the part object
  * @author Adam Sindermann
  */
 public abstract class Part {

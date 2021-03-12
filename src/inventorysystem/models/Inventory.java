@@ -9,7 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *Model for the inventory object
+ * Model for the inventory object
  * @author Adam Sindermann
  */
 public class Inventory {
@@ -38,7 +38,15 @@ public class Inventory {
         return allParts.get(1);
     }
     
+    public static Boolean deletePart(Part selectedPart){
+        allParts.remove(selectedPart);
+        return true;
+    }
     
+    public static Boolean deleteProduct(Product selectedProduct){
+        allProducts.remove(selectedProduct);
+        return true;
+    }
     
     public static ObservableList<Part> getAllParts(){
         return allParts;

@@ -5,16 +5,22 @@ import inventorysystem.models.Inventory;
 import inventorysystem.models.Outsourced;
 import inventorysystem.models.Part;
 import inventorysystem.models.Product;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -43,6 +49,10 @@ public class MainController implements Initializable {
     @FXML private Button exitButton;
     @FXML private Button deletePartButton;
     @FXML private Button deleteProductButton;
+    
+    //Search Bars
+    @FXML private TextField partSearchBox;
+    @FXML private TextField productSearchBox;
     
 
     
@@ -111,7 +121,7 @@ public class MainController implements Initializable {
     
     /**
      * Checks which delete button was pushed and deletes the corresponding Object
-     * @param event 
+     * @param event used to capture which button was pushed
      */
     public void deleteButtonPushed(ActionEvent event){
         Button buttonPushed = (Button)event.getSource();
@@ -130,4 +140,29 @@ public class MainController implements Initializable {
             }
         }
     }
+    
+    public void partSearch(){
+        ObservableList<Part> match = FXCollections.observableArrayList();
+        int search = Integer.parseInt(partSearchBox.getText());
+        match.add(Inventory.lookupPart(search));
+        partTableView.setItems(match);
+    }
+    
+    /**
+     * Launches New Part Window
+     * @throws IOException 
+     */
+    public void launchNewPartWindow() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/inventorysystem/views/Part.fxml"));
+        Parent partViewParent = loader.load();
+   
+        Scene newPartScene = new Scene(partViewParent);
+        Stage stage = new Stage();
+        
+        stage.setScene(newPartScene);
+        stage.show();
+    }
+    
+    
 }

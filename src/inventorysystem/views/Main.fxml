@@ -32,7 +32,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="170.0" layoutY="10.0" prefHeight="25.0" prefWidth="159.0" promptText="Search By Part ID or Name" />
+                        <TextField fx:id="partSearchBox" layoutX="170.0" layoutY="10.0" onKeyPressed="#partSearch" prefHeight="25.0" prefWidth="159.0" promptText="Search By Part ID or Name" />
                      </children>
                   </AnchorPane>
                   <TableView fx:id="partTableView" prefHeight="217.0" prefWidth="350.0">
@@ -45,7 +45,7 @@
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="180.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#launchNewPartWindow" text="Add" />
                         <Button mnemonicParsing="false" text="Modify" />
                         <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#deleteButtonPushed" text="Delete" />
                      </children>

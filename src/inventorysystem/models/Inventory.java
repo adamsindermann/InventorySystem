@@ -34,7 +34,13 @@ public class Inventory {
         allProducts.add(newProduct);
     }
     
+    
     public static Part lookupPart(int partId){
+        for (Part part: allParts){
+            if (part.getId() == partId){
+                return part;
+            }
+        }
         return allParts.get(1);
     }
     

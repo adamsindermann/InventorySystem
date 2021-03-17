@@ -1,6 +1,7 @@
 package inventorysystem.views;
 
 import inventorysystem.models.InHouse;
+import inventorysystem.models.InputValidation;
 import inventorysystem.models.Inventory;
 import inventorysystem.models.Outsourced;
 import inventorysystem.models.Part;
@@ -8,6 +9,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -27,6 +30,7 @@ public class PartController implements Initializable {
     @FXML private RadioButton outsourcedRadio;
     private ToggleGroup radioToggleGroup;
     
+    //Used to track state of part form
     private boolean inHouseSelected;
     private boolean modifyingPart;
     
@@ -58,35 +62,54 @@ public class PartController implements Initializable {
         }
     }
     
+    /**
+     * Checks whether a new or existing part is being saved and calls the 
+     * corresponding method
+     */
     public void save(){
-        if (modifyingPart){
-            saveExisting();
-        } else {
-            saveNew();
+        if(inputValidation()){
+            if (modifyingPart){
+                saveExisting();
+            } else {
+                saveNew();
+            }
+            closeWindow();
         }
-        closeWindow();
+
         
     }
     
-    public void saveExisting(){
+    /**
+     * Updates an existing part with new values
+     */
+    public void saveExisting(){   
         Part modifiedPart = null;
         for (Part part: Inventory.getAllParts()){
             if (Integer.parseInt(iDfield.getText()) == part.getId()){
                 modifiedPart = part;
             }
         }
-        modifiedPart.setName(nameField.getText());
-        modifiedPart.setStock(Integer.parseInt(invField.getText()));
-        modifiedPart.setPrice(Double.parseDouble(priceField.getText()));
-        modifiedPart.setMax(Integer.parseInt(maxField.getText()));
-        modifiedPart.setMin(Integer.parseInt(minField.getText()));
-        if (inHouseSelected){
-            ((InHouse) modifiedPart).setMachineId(Integer.parseInt(machineOrCompanyField.getText()));
+        if (modifiedPart instanceof Outsourced && inHouseSelected){
+            replacePart(modifiedPart);
+            
+        } else if (modifiedPart instanceof InHouse && !inHouseSelected){
+            replacePart(modifiedPart);
         } else {
-            ((Outsourced) modifiedPart).setCompanyName(machineOrCompanyField.getText());
+            modifiedPart.setName(nameField.getText());
+            modifiedPart.setStock(Integer.parseInt(invField.getText()));
+            modifiedPart.setPrice(Double.parseDouble(priceField.getText()));
+            modifiedPart.setMax(Integer.parseInt(maxField.getText()));
+            modifiedPart.setMin(Integer.parseInt(minField.getText()));
+            if (inHouseSelected){
+                ((InHouse) modifiedPart).setMachineId(Integer.parseInt(machineOrCompanyField.getText()));
+            } else {
+                ((Outsourced) modifiedPart).setCompanyName(machineOrCompanyField.getText());
+            }
+        
+            Inventory.updatePart(Inventory.getAllParts().indexOf(modifiedPart), modifiedPart);
         }
         
-        Inventory.updatePart(Inventory.getAllParts().indexOf(modifiedPart), modifiedPart);
+
     }
     /**
      * Captures Data from text boxes and adds a new part to the inventory
@@ -94,8 +117,7 @@ public class PartController implements Initializable {
     public void saveNew(){
         String name, compName;
         double price;
-        int id, inv, max, min, machId;
-        
+        int id, inv, max, min, machId;  
         //Gets the ID of the last part in the inventory and adds 1 to it 
         id = Inventory.getAllParts().get(Inventory.getAllParts().size() - 1).getId() + 1;
         name = nameField.getText();
@@ -118,6 +140,38 @@ public class PartController implements Initializable {
         
     }
     
+    /**
+     * Creates a new part and replaces old part
+     * @param modifiedPart the part to be replaced
+     */
+    public void replacePart(Part modifiedPart){
+        Part newPart;
+        String name, compName;
+        double price;
+        int id, inv, max, min, machId;  
+        //Gets the ID of the last part in the inventory and adds 1 to it 
+        id = Inventory.getAllParts().get(Inventory.getAllParts().size() - 1).getId() + 1;
+        name = nameField.getText();
+        inv = Integer.parseInt(invField.getText());
+        price = Double.parseDouble(priceField.getText());
+        max = Integer.parseInt(maxField.getText());
+        min = Integer.parseInt(minField.getText());
+        
+        if (inHouseSelected){
+            machId = Integer.parseInt(machineOrCompanyField.getText());
+            newPart = new InHouse(id, name, price, inv, min, max, machId);
+        } else {
+            compName = machineOrCompanyField.getText();
+            newPart = new Outsourced(id, name, price, inv, min, max, compName);
+        } 
+            newPart.setId(modifiedPart.getId());
+            Inventory.updatePart(Inventory.getAllParts().indexOf(modifiedPart), newPart);
+    }
+    
+    /**
+     * Captures the part selected in main view and loads corresponding data
+     * @param part the selected part to be modified
+     */
     public void modifyPartData(Part part){
         modifyingPart = true;
         nameField.setText(part.getName());
@@ -130,12 +184,68 @@ public class PartController implements Initializable {
            machineOrCompanyField.setText(Integer.toString(((InHouse) part).getMachineId()));
             inHouseSelected = true;
         } else if (part instanceof Outsourced) {
+            inHouseSelected = false;
             machineOrCompanyField.setText(((Outsourced) part).getCompanyName());
             radioToggleGroup.selectToggle(outsourcedRadio);
             toggleSwitch();
         }
     }
     
+    
+    /**
+     * Checks that there are no empty boxes, only numbers where appropriate, and that
+     * the inventory levels are correct
+     * @return true if all checks pass, false otherwise
+     */
+    public boolean inputValidation(){
+        String name = nameField.getText();
+        String inv = invField.getText();
+        String price = priceField.getText();
+        String max = maxField.getText();
+        String min = minField.getText();
+        String machIdOrCompName = machineOrCompanyField.getText();
+        
+        boolean invNoChar = InputValidation.onlyNumbersOrPeriod(inv);
+        boolean priceNoChar = InputValidation.onlyNumbersOrPeriod(price);
+        boolean maxNoChar = InputValidation.onlyNumbersOrPeriod(max);
+        boolean minNoChar = InputValidation.onlyNumbersOrPeriod(min);
+        
+        
+        if (name.isEmpty() || inv.isEmpty() || price.isEmpty()
+                || max.isEmpty() || min.isEmpty() || machIdOrCompName.isEmpty()){
+            InputValidation.displayInputAlert("All values are required");
+            return false;
+        }
+        
+        if (!invNoChar || !priceNoChar || !maxNoChar || !minNoChar ){
+            InputValidation.displayInputAlert("Inventory, Price, Max, and Min must only contain numbers");
+            return false;
+        }
+        
+        if (inHouseSelected){
+            if(!InputValidation.onlyNumbersOrPeriod(machIdOrCompName)){
+                InputValidation.displayInputAlert("Machine ID must only contain numbers");
+                return false;
+            }
+            
+        }
+        int minInt = Integer.parseInt(min);
+        int maxInt = Integer.parseInt(max);
+        int invInt = Integer.parseInt(inv);
+        if (minInt >= maxInt){
+            InputValidation.displayInputAlert("Min can't be greater than max");
+            return false;
+        } 
+        
+        if (minInt >= invInt || maxInt <= invInt){
+            InputValidation.displayInputAlert("Inventory must be less than max and greater than min");
+            return false;
+        }   
+
+        return true;
+    }
+    
+
     /**
      * Closes the new part window
      */

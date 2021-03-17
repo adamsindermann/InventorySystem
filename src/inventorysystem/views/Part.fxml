@@ -81,10 +81,10 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="67.0">
                <children>
-                  <Label text="Max" />
-                  <TextField fx:id="maxField" maxWidth="120.0" />
                   <Label text="Min" />
                   <TextField fx:id="minField" maxWidth="120.0" />
+                  <Label text="Max" />
+                  <TextField fx:id="maxField" maxWidth="120.0" />
                </children>
                <opaqueInsets>
                   <Insets />

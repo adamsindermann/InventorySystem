@@ -148,6 +148,25 @@ public class MainController implements Initializable {
         partTableView.setItems(match);
     }
     
+    public void modifyPart(ActionEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/inventorysystem/views/Part.fxml"));
+        Parent partViewParent = loader.load();
+        
+        PartController controller = loader.getController();
+        controller.modifyPartData(partTableView.getSelectionModel().getSelectedItem());
+        
+        Scene modifyPartScene = new Scene(partViewParent);
+        Stage stage = new Stage();
+        
+        stage.setScene(modifyPartScene);
+        stage.show();
+        
+    }
+    public void refresh(){
+        partTableView.setItems(Inventory.getAllParts());
+    }
+    
     /**
      * Launches New Part Window
      * @throws IOException 
@@ -162,6 +181,10 @@ public class MainController implements Initializable {
         
         stage.setScene(newPartScene);
         stage.show();
+    }
+
+    private boolean Outsourced(Part selectedItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

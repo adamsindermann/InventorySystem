@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package inventorysystem.models;
 
 import javafx.collections.FXCollections;
@@ -23,6 +19,7 @@ public class Inventory {
     public static void addPart(Part newPart){
         
         allParts.add(newPart);
+        
     }
     
     
@@ -42,6 +39,10 @@ public class Inventory {
             }
         }
         return allParts.get(1);
+    }
+    
+    public static void updatePart(int index, Part selectedPart){
+         allParts.set(index, selectedPart);
     }
     
     public static Boolean deletePart(Part selectedPart){

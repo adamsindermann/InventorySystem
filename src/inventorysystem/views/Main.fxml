@@ -27,12 +27,12 @@
                <children>
                   <AnchorPane prefHeight="50.0" prefWidth="375.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="22.0" text="Parts">
+                        <Label layoutY="14.0" text="Parts">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="partSearchBox" layoutX="170.0" layoutY="10.0" onKeyPressed="#partSearch" prefHeight="25.0" prefWidth="159.0" promptText="Search By Part ID or Name" />
+                        <TextField fx:id="partSearchBox" layoutX="183.0" layoutY="10.0" onAction="#partSearch" onInputMethodTextChanged="#partSearch" onKeyPressed="#partSearch" onKeyReleased="#partSearch" onKeyTyped="#partSearch" prefHeight="25.0" prefWidth="160.0" promptText="Search By Part ID or Name" />
                      </children>
                   </AnchorPane>
                   <TableView fx:id="partTableView" prefHeight="217.0" prefWidth="350.0">
@@ -45,6 +45,11 @@
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="180.0" spacing="10.0">
                      <children>
+                        <Label fx:id="partNotFoundLabel" prefHeight="17.0" prefWidth="94.0" textFill="#ff0b0b">
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
+                        </Label>
                         <Button mnemonicParsing="false" onAction="#launchNewPartWindow" text="Add" />
                         <Button mnemonicParsing="false" onAction="#modifyPart" text="Modify" />
                         <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#deleteButtonPushed" text="Delete" />
@@ -62,13 +67,16 @@
                <children>
                   <AnchorPane prefHeight="50.0" prefWidth="375.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="22.0" text="Products">
+                        <Label layoutY="14.0" text="Products">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="170.0" layoutY="10.0" prefHeight="25.0" prefWidth="159.0" promptText="Search By Product ID or Name" />
+                        <TextField layoutX="183.0" layoutY="10.0" prefHeight="25.0" prefWidth="160.0" promptText="Search By Product ID or Name" />
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </AnchorPane>
                   <TableView fx:id="productTableView" prefHeight="217.0" prefWidth="350.0">
                      <columns>
@@ -80,7 +88,7 @@
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="180.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#launchNewProductWindow" text="Add" />
                         <Button mnemonicParsing="false" text="Modify" />
                         <Button fx:id="deleteProductButton" mnemonicParsing="false" onAction="#deleteButtonPushed" text="Delete" />
                      </children>

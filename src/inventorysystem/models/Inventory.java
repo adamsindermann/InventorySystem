@@ -32,13 +32,32 @@ public class Inventory {
     }
     
     
-    public static Part lookupPart(int partId){
+    /**
+     * 
+     * FUTURE ENHANCEMENT - Could create a more descriptive exception. 
+     * I.e. partNotFoundException.
+     * @param partId - The ID 
+     * @return
+     * @throws Exception - If the part is not found an exception is thrown, otherwise 
+     * the method would need to return a new part signifying that no part was found. 
+     */
+    public static Part lookupPart(int partId) throws Exception{
         for (Part part: allParts){
             if (part.getId() == partId){
                 return part;
             }
         }
-        return allParts.get(1);
+        throw new Exception("Part not found");
+    }
+    
+    public static ObservableList<Part> lookupPart(String partName){
+        ObservableList<Part> matchingParts = FXCollections.observableArrayList();
+        for (Part part: allParts){
+            if(part.getName().toLowerCase().contains(partName.toLowerCase())){
+                matchingParts.add(part);
+            }
+        }
+        return matchingParts;
     }
     
     public static void updatePart(int index, Part selectedPart){

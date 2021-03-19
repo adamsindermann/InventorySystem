@@ -1,6 +1,7 @@
 package inventorysystem.views;
 
 import inventorysystem.models.InHouse;
+import inventorysystem.models.InputValidation;
 import inventorysystem.models.Inventory;
 import inventorysystem.models.Outsourced;
 import inventorysystem.models.Part;
@@ -54,6 +55,9 @@ public class MainController implements Initializable {
     @FXML private TextField partSearchBox;
     @FXML private TextField productSearchBox;
     
+    //Warning labels
+    @FXML private Label partNotFoundLabel;
+    
 
     
     @Override
@@ -83,10 +87,10 @@ public class MainController implements Initializable {
     private void loadData(){
         
         //Add parts 
-        Part part1 = new InHouse(1, "Part 1", 13.50, 30, 1, 50, 1234);
-        Part part2 = new InHouse(156, "Part 2", 11, 23, 10, 100, 1237);
-        Part part3 = new InHouse(123, "Part 3", 0.50, 1500, 300, 5000, 1235);
-        Part part4 = new Outsourced(247, "Part 4", 100, 15, 5, 20, "Blackwood");
+        Part part1 = new InHouse(1, "Screw", 13.50, 30, 1, 50, 1222);
+        Part part2 = new InHouse(2, "Nut", 11, 23, 10, 100, 222);
+        Part part3 = new InHouse(3, "Chain", 0.50, 1500, 300, 5000, 322);
+        Part part4 = new Outsourced(4, "Gear", 100, 15, 5, 20, "Blackwood");
         
         Inventory.addPart(part1);
         Inventory.addPart(part2);
@@ -141,11 +145,30 @@ public class MainController implements Initializable {
         }
     }
     
+    /**
+     * 
+     * FUTURE ENHANCEMENT - Would be nice if users could search by partial 
+     * part ID. Currently ID Search only supports an exact match.
+     */
     public void partSearch(){
-        ObservableList<Part> match = FXCollections.observableArrayList();
-        int search = Integer.parseInt(partSearchBox.getText());
-        match.add(Inventory.lookupPart(search));
-        partTableView.setItems(match);
+        partNotFoundLabel.setText("");
+        String query = partSearchBox.getText();
+        ObservableList<Part> searchResults = FXCollections.observableArrayList();
+        if(!query.isEmpty() && InputValidation.onlyNumbersOrPeriod(query)){
+            try{
+              searchResults.add(Inventory.lookupPart(Integer.parseInt(query)));
+            } catch (Exception e){
+              searchResults.clear();
+            }
+            
+        } else {
+            searchResults = Inventory.lookupPart(query);      
+        }
+        partTableView.setItems(searchResults);
+        if (searchResults.isEmpty()){
+            partNotFoundLabel.setText("*Part Not Found");
+        }
+        
     }
     
     public void modifyPart(ActionEvent event) throws IOException{
@@ -163,29 +186,32 @@ public class MainController implements Initializable {
         stage.show();
         
     }
-    public void refresh(){
-        partTableView.setItems(Inventory.getAllParts());
-    }
+
     
     /**
      * Launches New Part Window
      * @throws IOException 
      */
     public void launchNewPartWindow() throws IOException{
+        launchWindow("/inventorysystem/views/Part.fxml");
+    }
+    
+    public void launchNewProductWindow() throws IOException{
+        launchWindow("/inventorysystem/views/Product.fxml");
+    }
+    
+    public void launchWindow(String fileLocation) throws IOException{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/inventorysystem/views/Part.fxml"));
+        loader.setLocation(getClass().getResource(fileLocation));
         Parent partViewParent = loader.load();
    
-        Scene newPartScene = new Scene(partViewParent);
+        Scene newScene = new Scene(partViewParent);
         Stage stage = new Stage();
         
-        stage.setScene(newPartScene);
+        stage.setScene(newScene);
         stage.show();
     }
 
-    private boolean Outsourced(Part selectedItem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     
 }

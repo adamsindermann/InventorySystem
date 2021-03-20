@@ -4,12 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
+ * Model for Product Object
  *
  * @author Adam Sindermann
- * Model for Product Object
+ *
+ *
  */
 public class Product {
-    
+
     private ObservableList<Part> associatedParts;
     private int id;
     private String name;
@@ -19,12 +21,13 @@ public class Product {
     private int max;
 
     /**
-     * 
-     * @param associatedParts An ObservableList of parts used to make the product
+     *
+     * @param associatedParts An ObservableList of parts used to make the
+     * product
      * @param id product identification number
      * @param name product name
      * @param price product price
-     * @param stock amount of product in stock 
+     * @param stock amount of product in stock
      * @param min the minimum amount of the product that should be in stock
      * @param max the maximum amount of the product that should be in stock
      */
@@ -39,90 +42,160 @@ public class Product {
     }
 
     /**
-     * 
-     * @return ObservableList of parts associated with the product 
+     * Get list of associated parts
+     *
+     * @return - ObservableList: Parts associated with the product
      */
     public ObservableList<Part> getAssociatedParts() {
         return associatedParts;
     }
 
     /**
-     * 
-     * @param associatedParts ObservableList of parts associated with the product 
+     * Set list of associated parts
+     *
+     * @param associatedParts - ObservableList: Parts to be associated with
+     * product
      */
     public void setAssociatedParts(ObservableList<Part> associatedParts) {
         this.associatedParts = associatedParts;
     }
 
     /**
-     * 
-     * @return the product identification number as an integer 
+     * Gets product ID
+     *
+     * @return - Integer: product ID
      */
     public int getId() {
         return id;
     }
 
     /**
-     * the product identification number as an integer
-     * @param id 
+     * Sets product ID
+     *
+     * @param id - Integer: Product ID
      */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Gets Name
+     *
+     * @return - String: Name of the object
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets Name
+     *
+     * @param name - String: Product Name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets price
+     *
+     * @return - Double: Price of the product
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * Sets Price
+     *
+     * @param price - Double: Price of the product
+     */
     public void setPrice(double price) {
         this.price = price;
     }
 
+    /**
+     * Gets Inventory level
+     *
+     * @return - Integer: Inventory level
+     */
     public int getStock() {
         return stock;
     }
 
+    /**
+     * Sets inventory level
+     *
+     * @param stock - Integer: Inventory level
+     */
     public void setStock(int stock) {
         this.stock = stock;
     }
 
+    /**
+     * Get minimum inventory level
+     *
+     * @return - Integer: Minimum inventory level
+     */
     public int getMin() {
         return min;
     }
 
+    /**
+     * Set minimum inventory level
+     *
+     * @param min - Integer: Minimum inventory level
+     */
     public void setMin(int min) {
         this.min = min;
     }
 
+    /**
+     * Get maximum inventory level
+     *
+     * @return - Integer: Maximum inventory level
+     */
     public int getMax() {
         return max;
     }
 
+    /**
+     * Set maximum inventory level
+     *
+     * @param max - Integer: maximum inventory level
+     */
     public void setMax(int max) {
         this.max = max;
     }
-    
-    public static void addAssociatedPart(Part part){
-        
+
+    /**
+     * Adds a part to the product's associated parts list
+     *
+     * @param part - Part: The part to be added.
+     */
+    public void addAssociatedPart(Part part) {
+        this.associatedParts.add(part);
     }
-    
-    public boolean deleteAssociatedPart(Part selectedAssociatedPart){
+
+    /**
+     * Removes a part from the list of associated parts
+     *
+     * @param selectedAssociatedPart - Part: Part to be removed
+     * @return - Boolean: True
+     */
+    public boolean deleteAssociatedPart(Part selectedAssociatedPart) {
         this.associatedParts.remove(selectedAssociatedPart);
         return true;
     }
-    
-    public ObservableList<Part> getAllAssociatedParts(){
+
+    /**
+     * Returns a list of parts associated with the Product
+     *
+     * @return - ObservableList: Parts associated with product
+     */
+    public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
-         
+
     }
-    
-    
+
 }

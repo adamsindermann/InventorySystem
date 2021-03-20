@@ -98,7 +98,12 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <TextField prefHeight="25.0" prefWidth="157.0" promptText="Search by Part ID or Name" />
+                  <Label fx:id="partSearchLabel" textFill="#e40d0d">
+                     <HBox.margin>
+                        <Insets right="130.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="partSearch" onAction="#search" onInputMethodTextChanged="#search" onKeyPressed="#search" onKeyReleased="#search" onKeyTyped="#search" prefHeight="25.0" prefWidth="157.0" promptText="Search by Part ID or Name" />
                </children>
                <VBox.margin>
                   <Insets right="10.0" />

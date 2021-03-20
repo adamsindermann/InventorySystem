@@ -1,7 +1,8 @@
 package inventorysystem.views;
 
 import inventorysystem.models.InHouse;
-import inventorysystem.models.InputValidation;
+import inventorysystem.InputValidation;
+import inventorysystem.Search;
 import inventorysystem.models.Inventory;
 import inventorysystem.models.Outsourced;
 import inventorysystem.models.Part;
@@ -28,8 +29,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
+ * Provides logic for main view.
  *
- * @author Adam Sindermann Controls the behavior of the Main view
+ * @author Adam Sindermann
  */
 public class MainController implements Initializable {
 
@@ -74,6 +76,8 @@ public class MainController implements Initializable {
     //Warning labels
     @FXML
     private Label partNotFoundLabel;
+    @FXML
+    private Label productNotFoundLabel;
 
     /**
      * Loads initial data into the inventory
@@ -116,16 +120,20 @@ public class MainController implements Initializable {
      * Closes the program when invoked by the exit button
      */
     public void exitButtonPushed() {
-        Stage stage = (Stage) exitButton.getScene().getWindow();
-        stage.close();
-        System.exit(0);
+        if (InputValidation.confirmationAlert("Exit", "Are you sure you want to exit?")) {
+
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.close();
+            System.exit(0);
+        }
+
     }
 
     /**
      * Checks which delete button was pushed and deletes the corresponding
      * Object
      *
-     * @param event used to capture which button was pushed
+     * @param event - Used to capture which button was pushed
      */
     public void deleteButtonPushed(ActionEvent event) {
         Button buttonPushed = (Button) event.getSource();
@@ -134,11 +142,11 @@ public class MainController implements Initializable {
                 ObservableList<Part> selectedRows;
                 selectedRows = partTableView.getSelectionModel().getSelectedItems();
                 for (Part part : selectedRows) {
-                    if (!Inventory.deletePart(part)){
+                    if (!Inventory.deletePart(part)) {
                         InputValidation.displayInputAlert("Cannot delete a part associated with a product");
                     };
                 }
-            } else if (buttonPushed.equals(deleteProductButton)){
+            } else if (buttonPushed.equals(deleteProductButton)) {
                 ObservableList<Product> selectedRows;
                 selectedRows = productTableView.getSelectionModel().getSelectedItems();
                 for (Product product : selectedRows) {
@@ -153,27 +161,13 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
-     *
-     * RUNTIME ERROR - When I first wrote this method I was getting a
-     * NumberFormatException from the Integer.parseInt() method when the search
-     * box was set to empty. Fixed by checking if the input string was empty
-     * before calling the lookupPart(int) method.
+     * Searches for a Part when text is entered in the part search box and
+     * updates the list of parts.
      */
-    public void partSearch() {
+    public void searchPart() {
         partNotFoundLabel.setText("");
         String query = partSearchBox.getText();
-        ObservableList<Part> searchResults = FXCollections.observableArrayList();
-        if (!query.isEmpty() && InputValidation.onlyNumbersOrPeriod(query)) {
-            try {
-                searchResults.add(Inventory.lookupPart(Integer.parseInt(query)));
-            } catch (Exception e) {
-                searchResults.clear();
-            }
-
-        } else {
-            searchResults = Inventory.lookupPart(query);
-        }
+        ObservableList<Part> searchResults = Search.partSearch(query);
         partTableView.setItems(searchResults);
         if (searchResults.isEmpty()) {
             partNotFoundLabel.setText("*Part Not Found");
@@ -181,7 +175,26 @@ public class MainController implements Initializable {
 
     }
 
-    public void modifyPart(ActionEvent event) throws IOException {
+    /**
+     * Searches for a Product when text is entered in the product search box and
+     * updates the list of products.
+     */
+    public void searchProduct() {
+        productNotFoundLabel.setText("");
+        String query = productSearchBox.getText();
+        ObservableList<Product> searchResults = Search.productSearch(query);
+        productTableView.setItems(searchResults);
+        if (searchResults.isEmpty()) {
+            productNotFoundLabel.setText("*Product Not Found");
+        }
+    }
+
+    /**
+     * Loads the Part window and passes in the part selected in the tableView.
+     *
+     * @throws IOException - If the FXML file is not found
+     */
+    public void modifyPart() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/inventorysystem/views/Part.fxml"));
         Parent partViewParent = loader.load();
@@ -197,7 +210,13 @@ public class MainController implements Initializable {
 
     }
 
-    public void modifyProduct(ActionEvent event) throws IOException {
+    /**
+     * Loads the Product window and passes in the part selected in the
+     * tableView.
+     *
+     * @throws IOException - If the FXML file is not found.
+     */
+    public void modifyProduct() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/inventorysystem/views/Product.fxml"));
         Parent partViewParent = loader.load();
@@ -213,18 +232,29 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Launches New Part Window
+     * Launches New Part Window.
      *
-     * @throws IOException
+     * @throws IOException - If the FXML file is not found.
      */
     public void launchNewPartWindow() throws IOException {
         launchWindow("/inventorysystem/views/Part.fxml");
     }
 
+    /**
+     * Launches new product window.
+     *
+     * @throws IOException - If the FXML file is not found.
+     */
     public void launchNewProductWindow() throws IOException {
         launchWindow("/inventorysystem/views/Product.fxml");
     }
 
+    /**
+     * Launches a new window.
+     *
+     * @param fileLocation - String: the location of the FXML file.
+     * @throws IOException - If the FXML file is not found
+     */
     public void launchWindow(String fileLocation) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(fileLocation));
@@ -237,6 +267,12 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Initialize the main window.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadData();

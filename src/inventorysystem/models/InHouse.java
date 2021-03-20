@@ -1,19 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem.models;
 
 /**
  *
- * @author Adam Sindermann
+ * @author Adam Sindermann Model for the InHouse part
  */
 public class InHouse extends Part {
-    private  int machineId;
+
+    private int machineId;
 
     /**
-     * 
+     *
      * @param id Part ID
      * @param name Part Name
      * @param price Price of the part
@@ -28,20 +24,21 @@ public class InHouse extends Part {
     }
 
     /**
-     * 
-     * @param machineId 
+     * Sets the Machine ID
+     *
+     * @param machineId - Integer: Machine ID
      */
     public void setMachineId(int machineId) {
         this.machineId = machineId;
     }
 
     /**
-     * 
-     * @return 
+     * Gets the Machine ID
+     *
+     * @return - Integer: Machine ID
      */
     public int getMachineId() {
         return machineId;
     }
-    
-    
+
 }

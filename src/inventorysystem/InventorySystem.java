@@ -1,6 +1,5 @@
 package inventorysystem;
 
-
 import inventorysystem.models.InHouse;
 import inventorysystem.models.Inventory;
 import inventorysystem.models.Outsourced;
@@ -13,27 +12,35 @@ import javafx.stage.Stage;
 
 /**
  * Entry point of the application
- * @author Adam Sindermann
- * FUTURE ENHANCEMENT - Currently, users can add one part to a product multiple times.
- * Future implementation should check if the part is already associated with the product 
- * and display an error message or remove the part from the available parts list. 
+ *
+ * @author Adam Sindermann 
  * 
- * FUTURE ENHANCEMENT - Would be nice if users could search by partial 
- * part or product ID. Currently ID Search only supports an exact match.
- * 
- * FUTURE ENHANCEMENT - Search functionality should be moved to it's own class.
+ * FUTURE ENHANCEMENT - Currently, users can add one
+ * part to a product multiple times. Future implementation should check if the
+ * part is already associated with the product and display an error message or
+ * remove the part from the available parts list.
+ *
+ * FUTURE ENHANCEMENT - Would be nice if users could search by partial part or
+ * product ID. Currently ID Search only supports an exact match.
+ *
  */
 public class InventorySystem extends Application {
-    
+
+    /**
+     * Loads the Main window.
+     *
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(InventorySystem.class.getResource("/inventorysystem/views/Main.fxml"));
         Parent root = loader.load();
-   
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
     }
@@ -45,5 +52,5 @@ public class InventorySystem extends Application {
         launch(args);
 
     }
-    
+
 }

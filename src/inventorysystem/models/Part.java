@@ -1,16 +1,19 @@
 package inventorysystem.models;
 
 /**
- * Model for the part object
+ * Model for the Part object
+ *
  * @author Adam Sindermann
  */
 public abstract class Part {
+
     private int id;
     private String name;
     private double price;
     private int stock;
     private int min;
-    private int max;    
+    private int max;
+
     public Part(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;
@@ -61,7 +64,7 @@ public abstract class Part {
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
     /**
      * @return the stock
      */
@@ -103,5 +106,5 @@ public abstract class Part {
     public void setMax(int max) {
         this.max = max;
     }
-    
+
 }

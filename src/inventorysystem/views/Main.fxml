@@ -32,7 +32,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="partSearchBox" layoutX="183.0" layoutY="10.0" onAction="#partSearch" onInputMethodTextChanged="#partSearch" onKeyPressed="#partSearch" onKeyReleased="#partSearch" onKeyTyped="#partSearch" prefHeight="25.0" prefWidth="160.0" promptText="Search By Part ID or Name" />
+                        <TextField fx:id="partSearchBox" layoutX="183.0" layoutY="10.0" onAction="#searchPart" onInputMethodTextChanged="#searchPart" onKeyPressed="#searchPart" onKeyReleased="#searchPart" onKeyTyped="#searchPart" prefHeight="25.0" prefWidth="160.0" promptText="Search By Part ID or Name" />
                      </children>
                   </AnchorPane>
                   <TableView fx:id="partTableView" prefHeight="217.0" prefWidth="350.0">
@@ -72,7 +72,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="183.0" layoutY="10.0" prefHeight="25.0" prefWidth="160.0" promptText="Search By Product ID or Name" />
+                        <TextField fx:id="productSearchBox" layoutX="183.0" layoutY="10.0" onAction="#searchProduct" onInputMethodTextChanged="#searchProduct" onKeyPressed="#searchProduct" onKeyReleased="#searchProduct" onKeyTyped="#searchProduct" prefHeight="25.0" prefWidth="160.0" promptText="Search By Product ID or Name" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -88,6 +88,11 @@
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="180.0" spacing="10.0">
                      <children>
+                        <Label fx:id="productNotFoundLabel" textFill="#ee0808">
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
+                        </Label>
                         <Button mnemonicParsing="false" onAction="#launchNewProductWindow" text="Add" />
                         <Button mnemonicParsing="false" onAction="#modifyProduct" text="Modify" />
                         <Button fx:id="deleteProductButton" mnemonicParsing="false" onAction="#deleteButtonPushed" text="Delete" />

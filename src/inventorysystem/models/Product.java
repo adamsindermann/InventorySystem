@@ -115,6 +115,7 @@ public class Product {
     }
     
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
+        this.associatedParts.remove(selectedAssociatedPart);
         return true;
     }
     

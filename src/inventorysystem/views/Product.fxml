@@ -29,10 +29,13 @@
                </VBox.margin>
                <children>
                   <Label text="ID" />
-                  <TextField fx:id="iDfield">
+                  <TextField fx:id="iDfield" editable="false" text="Auto Generated">
                      <HBox.margin>
                         <Insets left="13.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
                   </TextField>
                </children>
                <padding>
@@ -115,7 +118,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Add">
+                  <Button mnemonicParsing="false" onAction="#addPart" text="Add">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -136,7 +139,7 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" prefWidth="150.0" text="Remove Associated Part" />
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#removePart" prefWidth="150.0" text="Remove Associated Part" />
                </children>
                <VBox.margin>
                   <Insets right="10.0" />
@@ -144,8 +147,8 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="60.0" text="Save" />
-                  <Button mnemonicParsing="false" prefWidth="60.0" text="Cancel" />
+                  <Button mnemonicParsing="false" onAction="#saveProduct" prefWidth="60.0" text="Save" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#closeWindow" prefWidth="60.0" text="Cancel" />
                </children>
                <padding>
                   <Insets right="10.0" />

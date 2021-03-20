@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem;
 
 
@@ -19,6 +14,14 @@ import javafx.stage.Stage;
 /**
  * Entry point of the application
  * @author Adam Sindermann
+ * FUTURE ENHANCEMENT - Currently, users can add one part to a product multiple times.
+ * Future implementation should check if the part is already associated with the product 
+ * and display an error message or remove the part from the available parts list. 
+ * 
+ * FUTURE ENHANCEMENT - Would be nice if users could search by partial 
+ * part or product ID. Currently ID Search only supports an exact match.
+ * 
+ * FUTURE ENHANCEMENT - Search functionality should be moved to it's own class.
  */
 public class InventorySystem extends Application {
     

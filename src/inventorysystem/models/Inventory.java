@@ -64,14 +64,27 @@ public class Inventory {
          allParts.set(index, selectedPart);
     }
     
+    public static void updateProduct(int index, Product selectedProduct){
+        allProducts.set(index, selectedProduct);
+    }
+    
     public static Boolean deletePart(Part selectedPart){
+        for (Product product: allProducts){
+            if(product.getAllAssociatedParts().contains(selectedPart)){
+                return false;
+            }
+        }
         allParts.remove(selectedPart);
         return true;
     }
     
     public static Boolean deleteProduct(Product selectedProduct){
-        allProducts.remove(selectedProduct);
-        return true;
+        if(selectedProduct.getAllAssociatedParts().isEmpty()){
+            allProducts.remove(selectedProduct);
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public static ObservableList<Part> getAllParts(){

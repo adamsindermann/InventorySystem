@@ -132,11 +132,6 @@ public class Inventory {
      * @return - True if the part is successfully removed
      */
     public static Boolean deletePart(Part selectedPart) {
-        for (Product product : allProducts) {
-            if (product.getAllAssociatedParts().contains(selectedPart)) {
-                return false;
-            }
-        }
         allParts.remove(selectedPart);
         return true;
     }

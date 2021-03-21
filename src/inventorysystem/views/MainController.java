@@ -142,9 +142,7 @@ public class MainController implements Initializable {
                 ObservableList<Part> selectedRows;
                 selectedRows = partTableView.getSelectionModel().getSelectedItems();
                 for (Part part : selectedRows) {
-                    if (!Inventory.deletePart(part)) {
-                        InputValidation.displayInputAlert("Cannot delete a part associated with a product");
-                    };
+                     Inventory.deletePart(part);
                 }
             } else if (buttonPushed.equals(deleteProductButton)) {
                 ObservableList<Product> selectedRows;
@@ -237,6 +235,7 @@ public class MainController implements Initializable {
      * @throws IOException - If the FXML file is not found.
      */
     public void launchNewPartWindow() throws IOException {
+        partTableView.getSelectionModel().clearSelection();
         launchWindow("/inventorysystem/views/Part.fxml");
     }
 
@@ -270,8 +269,8 @@ public class MainController implements Initializable {
     /**
      * Initialize the main window.
      *
-     * @param url
-     * @param rb
+     * @param url - URL
+     * @param rb -RB
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -40,8 +40,10 @@ public class Search {
                 searchResults.clear();
             }
 
-        } else {
+        } else if(!query.isEmpty()) {
             searchResults = Inventory.lookupPart(query);
+        } else{
+            searchResults = Inventory.getAllParts();
         }
         return searchResults;
     }
@@ -61,8 +63,10 @@ public class Search {
                 searchResults.clear();
             }
 
-        } else {
+        } else if (!query.isEmpty()) {
             searchResults = Inventory.lookupProduct(query);
+        } else {
+            searchResults = Inventory.getAllProducts();
         }
         return searchResults;
     }

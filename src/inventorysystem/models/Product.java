@@ -21,9 +21,6 @@ public class Product {
     private int max;
 
     /**
-     *
-     * @param associatedParts An ObservableList of parts used to make the
-     * product
      * @param id product identification number
      * @param name product name
      * @param price product price

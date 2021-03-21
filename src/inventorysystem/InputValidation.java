@@ -67,11 +67,11 @@ public class InputValidation {
      * Checks that strings are not empty, that they only contain numbers where
      * necessary, and that the inventory levels are logical.
      *
-     * @param name
-     * @param inv
-     * @param price
-     * @param min
-     * @param max
+     * @param name - String: Name
+     * @param inv - String: Inventory level
+     * @param price - String: price
+     * @param min - String: Minimum inventory
+     * @param max - String Maximum inventory
      * @return True if all checks pass.
      */
     public static boolean inputValidation(String name, String inv, String price, String min, String max) {

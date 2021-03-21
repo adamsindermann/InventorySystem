@@ -8,7 +8,9 @@ import inventorysystem.models.Part;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -77,7 +79,7 @@ public class PartController implements Initializable {
      * Checks whether a new or existing part is being saved and calls the
      * corresponding method
      */
-    public void save() {
+    public void save(){
         if (inputValidation()) {
             if (modifyingPart) {
                 saveExisting();

@@ -136,15 +136,21 @@ public class MainController implements Initializable {
      * @param event - Used to capture which button was pushed
      */
     public void deleteButtonPushed(ActionEvent event) {
+        boolean partSelected = !partTableView.getSelectionModel().getSelectedItems().isEmpty();
+        boolean productSelected = !productTableView.getSelectionModel().isEmpty();
         Button buttonPushed = (Button) event.getSource();
-        if (InputValidation.confirmationAlert("Delete", "Are you sure you want to delete this item?")) {
-            if (buttonPushed.equals(deletePartButton)) {
+
+        if (buttonPushed.equals(deletePartButton) && partSelected) {
+            if (InputValidation.confirmationAlert("Delete", "Are you sure you want to delete this part?")) {
                 ObservableList<Part> selectedRows;
                 selectedRows = partTableView.getSelectionModel().getSelectedItems();
                 for (Part part : selectedRows) {
-                     Inventory.deletePart(part);
+                    Inventory.deletePart(part);
                 }
-            } else if (buttonPushed.equals(deleteProductButton)) {
+            }
+
+        } else if (buttonPushed.equals(deleteProductButton) && productSelected) {
+            if (InputValidation.confirmationAlert("Delete", "Are you sure you want to delete this product?")) {
                 ObservableList<Product> selectedRows;
                 selectedRows = productTableView.getSelectionModel().getSelectedItems();
                 for (Product product : selectedRows) {
@@ -154,6 +160,8 @@ public class MainController implements Initializable {
 
                 }
             }
+        } else {
+            InputValidation.displayInputAlert("Please select an item to delete");
         }
 
     }
@@ -193,18 +201,22 @@ public class MainController implements Initializable {
      * @throws IOException - If the FXML file is not found
      */
     public void modifyPart() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/inventorysystem/views/Part.fxml"));
-        Parent partViewParent = loader.load();
+        if (!partTableView.getSelectionModel().getSelectedItems().isEmpty()) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/inventorysystem/views/Part.fxml"));
+            Parent partViewParent = loader.load();
 
-        PartController controller = loader.getController();
-        controller.modifyPartData(partTableView.getSelectionModel().getSelectedItem());
+            PartController controller = loader.getController();
+            controller.modifyPartData(partTableView.getSelectionModel().getSelectedItem());
 
-        Scene modifyPartScene = new Scene(partViewParent);
-        Stage stage = new Stage();
+            Scene modifyPartScene = new Scene(partViewParent);
+            Stage stage = new Stage();
 
-        stage.setScene(modifyPartScene);
-        stage.show();
+            stage.setScene(modifyPartScene);
+            stage.show();
+        } else {
+            InputValidation.displayInputAlert("Please select a part to modify.");
+        }
 
     }
 
@@ -215,18 +227,22 @@ public class MainController implements Initializable {
      * @throws IOException - If the FXML file is not found.
      */
     public void modifyProduct() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/inventorysystem/views/Product.fxml"));
-        Parent partViewParent = loader.load();
+        if (!productTableView.getSelectionModel().getSelectedItems().isEmpty()) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/inventorysystem/views/Product.fxml"));
+            Parent partViewParent = loader.load();
 
-        ProductController controller = loader.getController();
-        controller.modifyProductData(productTableView.getSelectionModel().getSelectedItem());
+            ProductController controller = loader.getController();
+            controller.modifyProductData(productTableView.getSelectionModel().getSelectedItem());
 
-        Scene modifyProductScene = new Scene(partViewParent);
-        Stage stage = new Stage();
+            Scene modifyProductScene = new Scene(partViewParent);
+            Stage stage = new Stage();
 
-        stage.setScene(modifyProductScene);
-        stage.show();
+            stage.setScene(modifyProductScene);
+            stage.show();
+        } else {
+            InputValidation.displayInputAlert("Please select a product to modify.");
+        }
     }
 
     /**
